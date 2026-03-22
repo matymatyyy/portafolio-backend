@@ -1,0 +1,64 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/app/config/secrets/prod/prod.decrypt.private.php
+/app/public/bundles/
+/app/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+###< symfony/phpunit-bridge ###
+
+###> lexik/jwt-authentication-bundle ###
+/app/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> phpstan ###
+phpstan-baseline.neon
+###< phpstan ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+nbproject/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Infrastructure
+/mailpit/data/*
+!/mailpit/data/.gitkeep
+/tmp/*
+!/tmp/.gitkeep
+
+# Composer
+/composer.phar
+
+# Database volumes (never commit)
+/postgres_data/
+
+# Coverage reports
+/coverage/
+
+# Claude Code
+.claude/

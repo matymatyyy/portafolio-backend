@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+if (!ini_get('date.timezone')) {
+    ini_set('date.timezone', 'UTC');
+}
+
+if (is_file(dirname(__DIR__).'/vendor/phpunit/phpunit/phpunit')) {
+    if (!is_file(dirname(__DIR__).'/vendor/autoload.php')) {
+        throw new RuntimeException('Run "composer install" first.');
+    }
+    require dirname(__DIR__).'/vendor/autoload.php';
+}
+
+if (!class_exists(\PHPUnit\TextUI\Application::class)) {
+    throw new RuntimeException('PHPUnit is not installed. Run "composer require --dev phpunit/phpunit".');
+}
+
+$application = new \PHPUnit\TextUI\Application();
+$application->run($_SERVER['argv']);

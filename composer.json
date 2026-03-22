@@ -1,0 +1,92 @@
+{
+    "name": "portfolio/symfony-api",
+    "description": "Production-grade REST API built with Symfony and Hexagonal Architecture",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-pdo": "*",
+        "ext-pdo_pgsql": "*",
+        "lexik/jwt-authentication-bundle": "^3.1",
+        "nelmio/api-doc-bundle": "^4.38",
+        "nelmio/cors-bundle": "^2.5",
+        "symfony/asset": "^7.2",
+        "symfony/cache": "^7.2",
+        "symfony/console": "^7.2",
+        "symfony/dotenv": "^7.2",
+        "symfony/flex": "^2.4",
+        "symfony/framework-bundle": "^7.2",
+        "symfony/mailer": "^7.2",
+        "symfony/messenger": "^7.2",
+        "symfony/monolog-bundle": "^3.10",
+        "symfony/password-hasher": "^7.2",
+        "symfony/property-access": "^7.2",
+        "symfony/runtime": "^7.2",
+        "symfony/security-bundle": "^7.2",
+        "symfony/serializer": "^7.2",
+        "symfony/twig-bundle": "^7.2",
+        "symfony/uid": "^7.2",
+        "symfony/validator": "^7.2",
+        "symfony/yaml": "^7.2"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpunit/phpunit": "^11.5",
+        "symfony/browser-kit": "^7.2",
+        "symfony/css-selector": "^7.2",
+        "symfony/maker-bundle": "^1.62",
+        "symfony/phpunit-bridge": "^7.2",
+        "symplify/easy-coding-standard": "^12.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "sort-packages": true,
+        "process-timeout": 600
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "^7.2"
+        },
+        "public-dir": "app/public"
+    }
+}

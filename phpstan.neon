@@ -1,0 +1,12 @@
+parameters:
+    level: max
+    paths:
+        - src
+    excludePaths:
+        - src/Infrastructure/Symfony/Kernel.php
+    symfony:
+        containerXmlPath: app/var/cache/dev/App_Infrastructure_Symfony_KernelDevDebugContainer.xml
+    treatPhpDocTypesAsCertain: false
+
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
