@@ -10,8 +10,11 @@ RUN install-php-extensions \
     intl \
     opcache
 
-# Install openssl for JWT key generation at runtime
-RUN apk add --no-cache openssl
+# Install openssl for JWT key generation, libcap to fix permissions
+RUN apk add --no-cache openssl libcap
+
+# Remove Linux capabilities that Render doesn't allow (cap_net_bind_service)
+RUN setcap -r /usr/local/bin/frankenphp 2>/dev/null || true
 
 # Copy composer from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
