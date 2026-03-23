@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class RedisCachedProjectRepository implements ProjectRepositoryInterface
 {
     private const int TTL = 3600;
+    private const string LIST_VERSION_KEY = 'project_list_version';
 
     public function __construct(
         #[Autowire(service: PdoProjectRepository::class)]
@@ -142,7 +143,7 @@ final readonly class RedisCachedProjectRepository implements ProjectRepositoryIn
     private function invalidateList(): void
     {
         try {
-            $this->cache->deleteItem('project_list_tag');
+            $this->cache->deleteItem(self::LIST_VERSION_KEY);
         } catch (\Throwable) {
         }
     }
@@ -157,11 +158,32 @@ final readonly class RedisCachedProjectRepository implements ProjectRepositoryIn
         return 'project_slug_' . $slug;
     }
 
+    private function listVersion(): string
+    {
+        try {
+            $item = $this->cache->getItem(self::LIST_VERSION_KEY);
+
+            if ($item->isHit()) {
+                /** @var string */
+                return $item->get();
+            }
+
+            $version = bin2hex(random_bytes(8));
+            $item->set($version);
+            $item->expiresAfter(self::TTL);
+            $this->cache->save($item);
+
+            return $version;
+        } catch (\Throwable) {
+            return '';
+        }
+    }
+
     /**
      * @param array<string, string> $filters
      */
     private function listKey(int $page, int $limit, array $filters): string
     {
-        return 'project_list_' . md5(serialize([$page, $limit, $filters]));
+        return 'project_list_' . $this->listVersion() . '_' . md5(serialize([$page, $limit, $filters]));
     }
 }

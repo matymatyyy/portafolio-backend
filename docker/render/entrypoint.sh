@@ -21,6 +21,7 @@ fi
 # Warm Symfony cache for production
 # =============================================================================
 echo "Warming Symfony cache..."
+php /app/bin/console cache:pool:clear cache.app --env=prod --no-debug 2>/dev/null || true
 php /app/bin/console cache:clear --env=prod --no-debug 2>/dev/null || true
 php /app/bin/console cache:warmup --env=prod --no-debug 2>/dev/null || true
 echo "Cache warmed."
