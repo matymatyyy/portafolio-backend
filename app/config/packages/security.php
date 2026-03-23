@@ -42,6 +42,7 @@ return static function (ContainerConfigurator $container): void {
             ['path' => '^/api/projects', 'methods' => ['GET'], 'roles' => 'PUBLIC_ACCESS'],
             ['path' => '^/api/contact$', 'methods' => ['POST'], 'roles' => 'PUBLIC_ACCESS'],
             ['path' => '^/api/cv$', 'methods' => ['GET'], 'roles' => 'PUBLIC_ACCESS'],
+            ['path' => '^/api/cv/status$', 'methods' => ['GET'], 'roles' => 'PUBLIC_ACCESS'],
             ['path' => '^/health', 'roles' => 'PUBLIC_ACCESS'],
             ['path' => '^/api', 'roles' => 'IS_AUTHENTICATED_FULLY'],
         ],

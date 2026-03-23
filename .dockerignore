@@ -1,0 +1,44 @@
+# Version control
+.git
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Docker (avoid recursive context)
+docker-compose.override.yml
+compose.override.yaml
+
+# CI/CD
+.github/
+
+# Development & testing
+coverage/
+.phpunit.cache/
+phpunit.xml
+phpstan-baseline.neon
+
+# Claude Code
+.claude/
+
+# Temporary files
+tmp/
+var/
+
+# Data volumes
+postgres_data/
+mailpit/
+
+# Documentation
+*.md
+LICENSE

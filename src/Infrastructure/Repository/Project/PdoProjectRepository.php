@@ -12,9 +12,7 @@ use App\Domain\Project\Status;
 use App\Infrastructure\Repository\PaginatedQueryTrait;
 use DateTimeImmutable;
 use PDO;
-use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 
-#[AsAlias(ProjectRepositoryInterface::class)]
 final readonly class PdoProjectRepository implements ProjectRepositoryInterface
 {
     use PaginatedQueryTrait;

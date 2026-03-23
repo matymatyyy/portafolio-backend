@@ -87,7 +87,7 @@ final readonly class UpdateCvController
 
         $dto = $this->updateCvUseCase->execute(
             originalFilename: $file->getClientOriginalName(),
-            mimeType: $file->getClientMimeType() ?? 'application/octet-stream',
+            mimeType: $file->getMimeType() ?? 'application/octet-stream',
             fileSize: $file->getSize(),
             fileContent: $fileContent,
         );

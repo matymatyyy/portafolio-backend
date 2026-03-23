@@ -16,7 +16,12 @@ final class CreateUserRequest
         #[Assert\Email(message: 'Please provide a valid email address.')]
         public readonly string $email = '',
         #[Assert\NotBlank(message: 'Password is required.')]
-        #[Assert\Length(min: 8, minMessage: 'Password must be at least {{ limit }} characters.')]
+        #[Assert\Length(
+            min: 8,
+            max: 128,
+            minMessage: 'Password must be at least {{ limit }} characters.',
+            maxMessage: 'Password must be at most {{ limit }} characters.',
+        )]
         public readonly string $password = '',
     ) {
     }

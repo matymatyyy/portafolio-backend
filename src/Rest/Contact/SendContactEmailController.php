@@ -61,7 +61,7 @@ final readonly class SendContactEmailController
     ): JsonResponse {
         $clientIp = $httpRequest->getClientIp() ?? 'unknown';
 
-        if (!$this->rateLimiter->isAllowed('contact_' . $clientIp, 5, 300)) {
+        if (!$this->rateLimiter->isAllowed('contact_' . $clientIp, 5, 300, failOpen: false)) {
             return new JsonResponse([
                 'error' => 'rate_limited',
                 'message' => 'Too many contact requests. Please try again later.',

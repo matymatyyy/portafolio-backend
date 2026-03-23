@@ -82,7 +82,7 @@ final readonly class UploadCvController
 
         $dto = $this->uploadCvUseCase->execute(
             originalFilename: $file->getClientOriginalName(),
-            mimeType: $file->getClientMimeType() ?? 'application/octet-stream',
+            mimeType: $file->getMimeType() ?? 'application/octet-stream',
             fileSize: $file->getSize(),
             fileContent: $fileContent,
         );

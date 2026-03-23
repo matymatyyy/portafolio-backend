@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+      target: dev
     container_name: portfolio_php
     restart: unless-stopped
     volumes:

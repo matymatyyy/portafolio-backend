@@ -15,8 +15,10 @@ final readonly class RateLimiter
 
     /**
      * Returns true if the request is allowed, false if rate limited.
+     *
+     * @param bool $failOpen If true, allows requests when cache is unavailable. If false, denies them.
      */
-    public function isAllowed(string $key, int $maxAttempts, int $windowSeconds): bool
+    public function isAllowed(string $key, int $maxAttempts, int $windowSeconds, bool $failOpen = true): bool
     {
         try {
             $cacheKey = 'rate_limit_' . str_replace(['@', ':', '.'], '_', $key);
@@ -42,7 +44,7 @@ final readonly class RateLimiter
 
             return true;
         } catch (\Throwable) {
-            return true;
+            return $failOpen;
         }
     }
 }

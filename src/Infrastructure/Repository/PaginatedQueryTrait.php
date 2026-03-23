@@ -8,6 +8,10 @@ use PDO;
 
 trait PaginatedQueryTrait
 {
+    private const array ALLOWED_TABLES = ['users', 'projects', 'page_visits', 'curriculum_vitae'];
+
+    private const array ALLOWED_ORDER_COLUMNS = ['created_at', 'updated_at', 'uploaded_at', 'visited_at', 'name', 'title', 'email'];
+
     /**
      * @param array<string, array{column: string, operator: string}> $filterConfig
      * @param array<string, string> $filters
@@ -22,6 +26,12 @@ trait PaginatedQueryTrait
         int $limit,
         string $orderBy = 'created_at DESC',
     ): array {
+        if (!in_array($table, self::ALLOWED_TABLES, true)) {
+            throw new \InvalidArgumentException(sprintf('Table "%s" is not allowed for paginated queries.', $table));
+        }
+
+        $orderBy = $this->sanitizeOrderBy($orderBy);
+
         $where = [];
         $params = [];
 
@@ -46,6 +56,8 @@ trait PaginatedQueryTrait
         $total = (int) $countStmt->fetchColumn();
 
         $offset = ($page - 1) * $limit;
+        $limit = min($limit, 100);
+
         $dataStmt = $pdo->prepare(
             sprintf('SELECT * FROM %s %s ORDER BY %s LIMIT :limit OFFSET :offset', $table, $whereSql, $orderBy),
         );
@@ -65,5 +77,22 @@ trait PaginatedQueryTrait
             'rows' => $rows,
             'total' => $total,
         ];
+    }
+
+    private function sanitizeOrderBy(string $orderBy): string
+    {
+        $parts = explode(' ', trim($orderBy));
+        $column = $parts[0] ?? 'created_at';
+        $direction = strtoupper($parts[1] ?? 'DESC');
+
+        if (!in_array($column, self::ALLOWED_ORDER_COLUMNS, true)) {
+            $column = 'created_at';
+        }
+
+        if (!in_array($direction, ['ASC', 'DESC'], true)) {
+            $direction = 'DESC';
+        }
+
+        return $column . ' ' . $direction;
     }
 }

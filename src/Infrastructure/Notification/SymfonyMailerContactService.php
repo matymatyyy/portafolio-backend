@@ -7,16 +7,17 @@ namespace App\Infrastructure\Notification;
 use App\Domain\Contact\Service\ContactEmailServiceInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\Attribute\AsAlias;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 
 #[AsAlias(ContactEmailServiceInterface::class)]
 final readonly class SymfonyMailerContactService implements ContactEmailServiceInterface
 {
-    private const string RECIPIENT_EMAIL = 'matias@example.com';
-
     public function __construct(
         private MailerInterface $mailer,
+        #[Autowire(env: 'CONTACT_RECIPIENT_EMAIL')]
+        private string $recipientEmail,
     ) {
     }
 
@@ -24,7 +25,7 @@ final readonly class SymfonyMailerContactService implements ContactEmailServiceI
     {
         $emailMessage = (new TemplatedEmail())
             ->from(new Address('noreply@portfolio.local', 'Portfolio Contact'))
-            ->to(self::RECIPIENT_EMAIL)
+            ->to($this->recipientEmail)
             ->replyTo(new Address($email, $name))
             ->subject(sprintf('[Portfolio Contact] %s', $subject))
             ->htmlTemplate('contact/contact_email.html.twig')
