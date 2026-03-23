@@ -18,13 +18,15 @@ final readonly class SymfonyMailerContactService implements ContactEmailServiceI
         private MailerInterface $mailer,
         #[Autowire(env: 'CONTACT_RECIPIENT_EMAIL')]
         private string $recipientEmail,
+        #[Autowire(env: 'MAILER_FROM')]
+        private string $mailerFrom,
     ) {
     }
 
     public function sendContactEmail(string $name, string $email, string $subject, string $message): void
     {
         $emailMessage = (new TemplatedEmail())
-            ->from(new Address('noreply@portfolio.local', 'Portfolio Contact'))
+            ->from(new Address($this->mailerFrom, 'Portfolio Contact'))
             ->to($this->recipientEmail)
             ->replyTo(new Address($email, $name))
             ->subject(sprintf('[Portfolio Contact] %s', $subject))

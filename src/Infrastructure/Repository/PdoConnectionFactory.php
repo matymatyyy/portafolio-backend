@@ -18,13 +18,24 @@ final class PdoConnectionFactory extends \PDO
             throw new \RuntimeException('Invalid DATABASE_URL format.');
         }
 
+        $queryParams = [];
+        if (isset($params['query'])) {
+            parse_str($params['query'], $queryParams);
+        }
+
+        $dsn = sprintf(
+            'pgsql:host=%s;port=%d;dbname=%s',
+            $params['host'] ?? 'localhost',
+            $params['port'] ?? 5432,
+            ltrim($params['path'] ?? '', '/'),
+        );
+
+        if (isset($queryParams['sslmode'])) {
+            $dsn .= ';sslmode=' . $queryParams['sslmode'];
+        }
+
         parent::__construct(
-            sprintf(
-                'pgsql:host=%s;port=%d;dbname=%s',
-                $params['host'] ?? 'localhost',
-                $params['port'] ?? 5432,
-                ltrim($params['path'] ?? '', '/'),
-            ),
+            $dsn,
             $params['user'] ?? '',
             $params['pass'] ?? '',
             [
