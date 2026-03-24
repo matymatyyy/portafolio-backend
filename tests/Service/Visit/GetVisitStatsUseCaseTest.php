@@ -38,15 +38,24 @@ final class GetVisitStatsUseCaseTest extends TestCase
 
         $this->visitRepository->expects(self::once())
             ->method('countByPage')
-            ->willReturn(['/' => 60, '/projects' => 40]);
+            ->willReturn([
+                '/' => 60,
+                '/projects' => 40,
+            ]);
 
         $this->visitRepository->expects(self::once())
             ->method('countByDay')
-            ->willReturn([['date' => '2026-03-20', 'count' => 10]]);
+            ->willReturn([[
+                'date' => '2026-03-20',
+                'count' => 10,
+            ]]);
 
         $this->visitRepository->expects(self::once())
             ->method('countTopReferrers')
-            ->willReturn([['referrer' => 'https://google.com', 'count' => 25]]);
+            ->willReturn([[
+                'referrer' => 'https://google.com',
+                'count' => 25,
+            ]]);
 
         $result = $this->useCase->execute(30, 10);
 
@@ -59,11 +68,16 @@ final class GetVisitStatsUseCaseTest extends TestCase
     #[Test]
     public function itClampsDaysToValidRange(): void
     {
-        $this->visitRepository->method('countTotal')->willReturn(0);
-        $this->visitRepository->method('countUniqueVisitors')->willReturn(0);
-        $this->visitRepository->method('countByPage')->willReturn([]);
-        $this->visitRepository->method('countByDay')->willReturn([]);
-        $this->visitRepository->method('countTopReferrers')->willReturn([]);
+        $this->visitRepository->method('countTotal')
+            ->willReturn(0);
+        $this->visitRepository->method('countUniqueVisitors')
+            ->willReturn(0);
+        $this->visitRepository->method('countByPage')
+            ->willReturn([]);
+        $this->visitRepository->method('countByDay')
+            ->willReturn([]);
+        $this->visitRepository->method('countTopReferrers')
+            ->willReturn([]);
 
         $result = $this->useCase->execute(0, 10);
 

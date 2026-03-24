@@ -35,13 +35,7 @@ final class VisitTest extends TestCase
     #[Test]
     public function itCreatesAVisitWithNullableFields(): void
     {
-        $visit = Visit::create(
-            VisitId::generate(),
-            '/',
-            null,
-            null,
-            null,
-        );
+        $visit = Visit::create(VisitId::generate(), '/', null, null, null);
 
         self::shouldBeSame('/', $visit->page());
         self::shouldBeNull($visit->ipAddress());

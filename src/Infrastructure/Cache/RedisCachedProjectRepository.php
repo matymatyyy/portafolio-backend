@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class RedisCachedProjectRepository implements ProjectRepositoryInterface
 {
     private const int TTL = 3600;
+
     private const string LIST_VERSION_KEY = 'project_list_version';
 
     public function __construct(

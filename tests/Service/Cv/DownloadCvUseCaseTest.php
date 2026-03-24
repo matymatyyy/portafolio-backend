@@ -31,13 +31,7 @@ final class DownloadCvUseCaseTest extends TestCase
     #[Test]
     public function itDownloadsTheActiveCv(): void
     {
-        $cv = Cv::create(
-            CvId::generate(),
-            'resume.pdf',
-            'application/pdf',
-            2048,
-            'pdf-binary-content',
-        );
+        $cv = Cv::create(CvId::generate(), 'resume.pdf', 'application/pdf', 2048, 'pdf-binary-content');
 
         $this->cvRepository->expects(self::once())
             ->method('findActive')

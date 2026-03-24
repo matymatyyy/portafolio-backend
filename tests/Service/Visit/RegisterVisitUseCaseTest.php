@@ -51,12 +51,7 @@ final class RegisterVisitUseCaseTest extends TestCase
         $this->visitRepository->expects(self::once())
             ->method('save');
 
-        $result = $this->useCase->execute(
-            page: '/',
-            ipAddress: null,
-            userAgent: null,
-            referrer: null,
-        );
+        $result = $this->useCase->execute(page: '/', ipAddress: null, userAgent: null, referrer: null);
 
         self::shouldBeSame('/', $result->page);
         self::shouldBeNull($result->ipAddress);

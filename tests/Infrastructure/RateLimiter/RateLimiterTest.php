@@ -19,12 +19,14 @@ final class RateLimiterTest extends TestCase
     public function itAllowsFirstRequest(): void
     {
         $item = $this->createMock(CacheItemInterface::class);
-        $item->method('isHit')->willReturn(false);
+        $item->method('isHit')
+            ->willReturn(false);
         $item->expects(self::once())->method('set')->with(1);
         $item->expects(self::once())->method('expiresAfter')->with(60);
 
         $cache = $this->createMock(CacheItemPoolInterface::class);
-        $cache->method('getItem')->willReturn($item);
+        $cache->method('getItem')
+            ->willReturn($item);
         $cache->expects(self::once())->method('save')->with($item);
 
         $limiter = new RateLimiter($cache);
@@ -36,12 +38,15 @@ final class RateLimiterTest extends TestCase
     public function itAllowsRequestsUnderLimit(): void
     {
         $item = $this->createMock(CacheItemInterface::class);
-        $item->method('isHit')->willReturn(true);
-        $item->method('get')->willReturn(3);
+        $item->method('isHit')
+            ->willReturn(true);
+        $item->method('get')
+            ->willReturn(3);
         $item->expects(self::once())->method('set')->with(4);
 
         $cache = $this->createMock(CacheItemPoolInterface::class);
-        $cache->method('getItem')->willReturn($item);
+        $cache->method('getItem')
+            ->willReturn($item);
         $cache->expects(self::once())->method('save');
 
         $limiter = new RateLimiter($cache);
@@ -53,11 +58,14 @@ final class RateLimiterTest extends TestCase
     public function itBlocksRequestsAtLimit(): void
     {
         $item = $this->createMock(CacheItemInterface::class);
-        $item->method('isHit')->willReturn(true);
-        $item->method('get')->willReturn(5);
+        $item->method('isHit')
+            ->willReturn(true);
+        $item->method('get')
+            ->willReturn(5);
 
         $cache = $this->createMock(CacheItemPoolInterface::class);
-        $cache->method('getItem')->willReturn($item);
+        $cache->method('getItem')
+            ->willReturn($item);
 
         $limiter = new RateLimiter($cache);
 
@@ -68,7 +76,8 @@ final class RateLimiterTest extends TestCase
     public function itFailsOpenByDefault(): void
     {
         $cache = $this->createMock(CacheItemPoolInterface::class);
-        $cache->method('getItem')->willThrowException(new \RuntimeException('Redis down'));
+        $cache->method('getItem')
+            ->willThrowException(new \RuntimeException('Redis down'));
 
         $limiter = new RateLimiter($cache);
 
@@ -79,7 +88,8 @@ final class RateLimiterTest extends TestCase
     public function itFailsClosedWhenConfigured(): void
     {
         $cache = $this->createMock(CacheItemPoolInterface::class);
-        $cache->method('getItem')->willThrowException(new \RuntimeException('Redis down'));
+        $cache->method('getItem')
+            ->willThrowException(new \RuntimeException('Redis down'));
 
         $limiter = new RateLimiter($cache);
 

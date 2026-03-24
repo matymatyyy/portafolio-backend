@@ -72,6 +72,7 @@ jobs:
       JWT_PASSPHRASE: ci-test-jwt-passphrase
       DATABASE_URL: "postgresql://app_user:app_password@localhost:5432/app_db_test?serverVersion=16&charset=utf8"
       REDIS_DSN: "redis://localhost:6379"
+      MAILER_DSN: "null://null"
       CONTACT_RECIPIENT_EMAIL: test@example.com
 
     steps:

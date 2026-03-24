@@ -10,7 +10,15 @@ trait PaginatedQueryTrait
 {
     private const array ALLOWED_TABLES = ['users', 'projects', 'page_visits', 'curriculum_vitae'];
 
-    private const array ALLOWED_ORDER_COLUMNS = ['created_at', 'updated_at', 'uploaded_at', 'visited_at', 'name', 'title', 'email'];
+    private const array ALLOWED_ORDER_COLUMNS = [
+        'created_at',
+        'updated_at',
+        'uploaded_at',
+        'visited_at',
+        'name',
+        'title',
+        'email',
+    ];
 
     /**
      * @param array<string, array{column: string, operator: string}> $filterConfig

@@ -30,13 +30,7 @@ final class GetActiveCvUseCaseTest extends TestCase
     #[Test]
     public function itReturnsActiveCvDto(): void
     {
-        $cv = Cv::create(
-            CvId::generate(),
-            'resume.pdf',
-            'application/pdf',
-            2048,
-            'pdf-content',
-        );
+        $cv = Cv::create(CvId::generate(), 'resume.pdf', 'application/pdf', 2048, 'pdf-content');
 
         $this->cvRepository->expects(self::once())
             ->method('findActive')

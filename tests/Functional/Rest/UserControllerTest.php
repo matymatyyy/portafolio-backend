@@ -70,7 +70,7 @@ final class UserControllerTest extends WebTestCase
 
     public function testGetUser(): void
     {
-        $user = $this->createAndPersistUser('get-test-id', 'Get Test', 'get-test@example.com');
+        $user = $this->createAndPersistUser('Get Test', 'get-test@example.com');
 
         $this->authenticatedRequest('GET', sprintf('/api/users/%s', $user->id()->value()));
 
@@ -84,15 +84,16 @@ final class UserControllerTest extends WebTestCase
     {
         $this->client->catchExceptions(true);
 
-        $this->authenticatedRequest('GET', '/api/users/nonexistent-id');
+        $nonExistentUuid = UserId::generate()->value();
+        $this->authenticatedRequest('GET', sprintf('/api/users/%s', $nonExistentUuid));
 
         self::assertResponseStatusCodeSame(404);
     }
 
     public function testListUsers(): void
     {
-        $this->createAndPersistUser('list-1', 'User 1', 'list1@example.com');
-        $this->createAndPersistUser('list-2', 'User 2', 'list2@example.com');
+        $this->createAndPersistUser('User 1', 'list1@example.com');
+        $this->createAndPersistUser('User 2', 'list2@example.com');
 
         $this->authenticatedRequest('GET', '/api/users?page=1&limit=10');
 
@@ -106,7 +107,7 @@ final class UserControllerTest extends WebTestCase
 
     public function testUpdateUser(): void
     {
-        $user = $this->createAndPersistUser('update-test-id', 'Original', 'update-original@example.com');
+        $user = $this->createAndPersistUser('Original', 'update-original@example.com');
 
         $this->authenticatedRequest('PUT', sprintf('/api/users/%s', $user->id()->value()), [
             'name' => 'Updated Name',
@@ -122,17 +123,17 @@ final class UserControllerTest extends WebTestCase
 
     public function testDeleteUser(): void
     {
-        $user = $this->createAndPersistUser('delete-test-id', 'To Delete', 'delete-test@example.com');
+        $user = $this->createAndPersistUser('To Delete', 'delete-test@example.com');
 
         $this->authenticatedRequest('DELETE', sprintf('/api/users/%s', $user->id()->value()));
 
         self::assertResponseStatusCodeSame(204);
     }
 
-    private function createAndPersistUser(string $id, string $name, string $email): User
+    private function createAndPersistUser(string $name, string $email): User
     {
         $user = User::create(
-            UserId::fromString($id),
+            UserId::generate(),
             $name,
             new Email($email),
             HashedPassword::fromHash('$2y$13$test_hash_value_for_testing'),
