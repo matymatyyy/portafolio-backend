@@ -30,8 +30,8 @@ final class PdoConnectionFactory extends \PDO
             ltrim($params['path'] ?? '', '/'),
         );
 
-        if (isset($queryParams['sslmode'])) {
-            $dsn .= ';sslmode=' . (string) $queryParams['sslmode'];
+        if (isset($queryParams['sslmode']) && \is_string($queryParams['sslmode'])) {
+            $dsn .= ';sslmode=' . $queryParams['sslmode'];
         }
 
         parent::__construct(

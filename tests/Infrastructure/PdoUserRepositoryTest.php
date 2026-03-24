@@ -44,8 +44,9 @@ final class PdoUserRepositoryTest extends KernelTestCase
 
     public function testSaveAndFindById(): void
     {
+        $id = UserId::generate();
         $user = User::create(
-            UserId::fromString('integration-test-id'),
+            $id,
             'Integration Test',
             new Email('integration@example.com'),
             HashedPassword::fromHash('$2y$13$test_hash'),
@@ -53,7 +54,7 @@ final class PdoUserRepositoryTest extends KernelTestCase
 
         $this->repository->save($user);
 
-        $found = $this->repository->findById(UserId::fromString('integration-test-id'));
+        $found = $this->repository->findById($id);
 
         self::assertNotNull($found);
         self::assertSame('Integration Test', $found->name());
@@ -62,8 +63,9 @@ final class PdoUserRepositoryTest extends KernelTestCase
 
     public function testFindByEmail(): void
     {
+        $id = UserId::generate();
         $user = User::create(
-            UserId::fromString('email-test-id'),
+            $id,
             'Email Test',
             new Email('email-test@example.com'),
             HashedPassword::fromHash('$2y$13$test_hash'),
@@ -74,7 +76,7 @@ final class PdoUserRepositoryTest extends KernelTestCase
         $found = $this->repository->findByEmail(new Email('email-test@example.com'));
 
         self::assertNotNull($found);
-        self::assertSame('email-test-id', $found->id()->value());
+        self::assertSame($id->value(), $found->id()->value());
     }
 
     public function testFindByEmailReturnsNullWhenNotFound(): void
@@ -121,7 +123,7 @@ final class PdoUserRepositoryTest extends KernelTestCase
 
     public function testRemove(): void
     {
-        $userId = UserId::fromString('remove-test-id');
+        $userId = UserId::generate();
         $user = User::create(
             $userId,
             'To Remove',
