@@ -31,7 +31,7 @@ final class PdoConnectionFactory extends \PDO
         );
 
         if (isset($queryParams['sslmode'])) {
-            $dsn .= ';sslmode=' . $queryParams['sslmode'];
+            $dsn .= ';sslmode=' . (string) $queryParams['sslmode'];
         }
 
         parent::__construct(

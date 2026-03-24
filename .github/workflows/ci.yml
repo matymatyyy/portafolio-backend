@@ -101,7 +101,7 @@ jobs:
           openssl rsa -pubout -in app/config/jwt/private.pem -out app/config/jwt/public.pem -passin pass:$JWT_PASSPHRASE
 
       - name: Initialize test database
-        run: psql "$DATABASE_URL" -f liquibase/portafolio/changelog.sql
+        run: psql "postgresql://app_user:app_password@localhost:5432/app_db_test" -f liquibase/portafolio/changelog.sql
 
       - name: Run unit tests
         run: vendor/bin/phpunit --testsuite=unit
