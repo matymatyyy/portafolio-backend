@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Project;
 
 use App\Converter\Project\ProjectDomainConverter;
+use App\Domain\Common\FileStorageInterface;
 use App\Domain\Project\Exception\ProjectAlreadyExistsException;
 use App\Domain\Project\Exception\ProjectNotFoundException;
 use App\Domain\Project\ProjectId;
@@ -19,6 +20,7 @@ final readonly class UpdateProjectUseCase
     public function __construct(
         private ProjectRepositoryInterface $projectRepository,
         private ProjectDomainConverter $projectConverter,
+        private FileStorageInterface $fileStorage,
     ) {
     }
 
@@ -30,6 +32,8 @@ final readonly class UpdateProjectUseCase
         if ($project === null) {
             throw ProjectNotFoundException::withId($projectId);
         }
+
+        $oldImageUrl = $project->imageUrl();
 
         $newSlug = Slug::fromTitle($dto->title);
 
@@ -54,6 +58,22 @@ final readonly class UpdateProjectUseCase
 
         $this->projectRepository->save($project);
 
+        if ($oldImageUrl !== null && $oldImageUrl !== $dto->imageUrl) {
+            $this->tryDeleteImage($oldImageUrl);
+        }
+
         return $this->projectConverter->toDTO($project);
+    }
+
+    private function tryDeleteImage(string $imageUrl): void
+    {
+        try {
+            $path = parse_url($imageUrl, PHP_URL_PATH);
+
+            if (is_string($path) && $path !== '') {
+                $this->fileStorage->delete(ltrim($path, '/'));
+            }
+        } catch (\Throwable) {
+        }
     }
 }

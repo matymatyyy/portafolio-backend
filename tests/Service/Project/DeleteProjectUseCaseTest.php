@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Project;
 
+use App\Domain\Common\FileStorageInterface;
 use App\Domain\Project\Exception\ProjectNotFoundException;
 use App\Domain\Project\ProjectRepositoryInterface;
 use App\Service\Project\DeleteProjectUseCase;
@@ -16,12 +17,15 @@ final class DeleteProjectUseCaseTest extends TestCase
 {
     private ProjectRepositoryInterface&MockObject $projectRepository;
 
+    private FileStorageInterface&MockObject $fileStorage;
+
     private DeleteProjectUseCase $useCase;
 
     protected function setUp(): void
     {
         $this->projectRepository = $this->createMock(ProjectRepositoryInterface::class);
-        $this->useCase = new DeleteProjectUseCase($this->projectRepository);
+        $this->fileStorage = $this->createMock(FileStorageInterface::class);
+        $this->useCase = new DeleteProjectUseCase($this->projectRepository, $this->fileStorage);
     }
 
     #[Test]

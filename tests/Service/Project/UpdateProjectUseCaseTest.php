@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Service\Project;
 
 use App\Converter\Project\ProjectDomainConverter;
+use App\Domain\Common\FileStorageInterface;
 use App\Domain\Project\Exception\ProjectAlreadyExistsException;
 use App\Domain\Project\Exception\ProjectNotFoundException;
 use App\Domain\Project\Project;
@@ -23,13 +24,20 @@ final class UpdateProjectUseCaseTest extends TestCase
 
     private ProjectRepositoryInterface&MockObject $projectRepository;
 
+    private FileStorageInterface&MockObject $fileStorage;
+
     private UpdateProjectUseCase $useCase;
 
     protected function setUp(): void
     {
         $this->projectRepository = $this->createMock(ProjectRepositoryInterface::class);
+        $this->fileStorage = $this->createMock(FileStorageInterface::class);
 
-        $this->useCase = new UpdateProjectUseCase($this->projectRepository, new ProjectDomainConverter());
+        $this->useCase = new UpdateProjectUseCase(
+            $this->projectRepository,
+            new ProjectDomainConverter(),
+            $this->fileStorage
+        );
     }
 
     #[Test]
