@@ -18,6 +18,7 @@ trait PaginatedQueryTrait
         'name',
         'title',
         'email',
+        'sort_order',
     ];
 
     /**

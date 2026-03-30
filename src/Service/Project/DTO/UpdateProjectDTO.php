@@ -18,6 +18,7 @@ final readonly class UpdateProjectDTO
         public ?string $repoUrl,
         public array $technologies,
         public string $status,
+        public int $sortOrder = 0,
     ) {
     }
 }

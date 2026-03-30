@@ -23,6 +23,7 @@ final class ProjectResponseConverter
             repo_url: $dto->repoUrl,
             technologies: $dto->technologies,
             status: $dto->status,
+            sort_order: $dto->sortOrder,
             created_at: $dto->createdAt->format(\DateTimeInterface::ATOM),
             updated_at: $dto->updatedAt->format(\DateTimeInterface::ATOM),
         );

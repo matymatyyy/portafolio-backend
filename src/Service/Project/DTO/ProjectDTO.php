@@ -21,6 +21,7 @@ final readonly class ProjectDTO
         public ?string $repoUrl,
         public array $technologies,
         public string $status,
+        public int $sortOrder,
         public DateTimeImmutable $createdAt,
         public DateTimeImmutable $updatedAt,
     ) {

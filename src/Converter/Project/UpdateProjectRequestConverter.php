@@ -20,6 +20,7 @@ final class UpdateProjectRequestConverter
             repoUrl: $request->repoUrl,
             technologies: $request->technologies,
             status: $request->status,
+            sortOrder: $request->sortOrder,
         );
     }
 }

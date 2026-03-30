@@ -54,6 +54,7 @@ final readonly class UpdateProjectUseCase
             $dto->repoUrl,
             $dto->technologies,
             Status::from($dto->status),
+            $dto->sortOrder,
         );
 
         $this->projectRepository->save($project);

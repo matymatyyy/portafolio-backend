@@ -24,6 +24,7 @@ final class ProjectDomainConverter
             technologies: $project->technologies(),
             status: $project->status()
                 ->value,
+            sortOrder: $project->sortOrder(),
             createdAt: $project->createdAt(),
             updatedAt: $project->updatedAt(),
         );

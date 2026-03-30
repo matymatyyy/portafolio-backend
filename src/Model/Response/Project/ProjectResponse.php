@@ -13,6 +13,7 @@ use OpenApi\Attributes as OA;
     'description',
     'technologies',
     'status',
+    'sort_order',
     'created_at',
     'updated_at',
 ])]
@@ -40,6 +41,8 @@ final readonly class ProjectResponse
         public array $technologies,
         #[OA\Property(example: 'active')]
         public string $status,
+        #[OA\Property(example: 0)]
+        public int $sort_order,
         #[OA\Property(example: '2024-01-01T00:00:00+00:00')]
         public string $created_at,
         #[OA\Property(example: '2024-01-01T00:00:00+00:00')]

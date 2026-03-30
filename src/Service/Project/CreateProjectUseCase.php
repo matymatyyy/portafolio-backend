@@ -42,6 +42,7 @@ final readonly class CreateProjectUseCase
             $dto->repoUrl,
             $dto->technologies,
             Status::from($dto->status),
+            $dto->sortOrder,
         );
 
         $this->projectRepository->save($project);

@@ -57,6 +57,7 @@ final class ProjectTest extends TestCase
             null,
             ['TypeScript', 'React'],
             Status::Archived,
+            1,
         );
 
         self::shouldBeSame('Updated Title', $project->title());

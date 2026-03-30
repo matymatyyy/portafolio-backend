@@ -25,8 +25,8 @@ final readonly class PdoProjectRepository implements ProjectRepositoryInterface
     public function save(Project $project): void
     {
         $sql = <<<'SQL'
-            INSERT INTO projects (id, title, slug, description, image_url, project_url, repo_url, technologies, status, created_at, updated_at)
-            VALUES (:id, :title, :slug, :description, :image_url, :project_url, :repo_url, :technologies, :status, :created_at, :updated_at)
+            INSERT INTO projects (id, title, slug, description, image_url, project_url, repo_url, technologies, status, sort_order, created_at, updated_at)
+            VALUES (:id, :title, :slug, :description, :image_url, :project_url, :repo_url, :technologies, :status, :sort_order, :created_at, :updated_at)
             ON CONFLICT (id) DO UPDATE SET
                 title = EXCLUDED.title,
                 slug = EXCLUDED.slug,
@@ -36,6 +36,7 @@ final readonly class PdoProjectRepository implements ProjectRepositoryInterface
                 repo_url = EXCLUDED.repo_url,
                 technologies = EXCLUDED.technologies,
                 status = EXCLUDED.status,
+                sort_order = EXCLUDED.sort_order,
                 updated_at = EXCLUDED.updated_at
         SQL;
 
@@ -53,6 +54,7 @@ final readonly class PdoProjectRepository implements ProjectRepositoryInterface
             'technologies' => json_encode($project->technologies(), JSON_THROW_ON_ERROR),
             'status' => $project->status()
                 ->value,
+            'sort_order' => $project->sortOrder(),
             'created_at' => $project->createdAt()
                 ->format('Y-m-d H:i:s'),
             'updated_at' => $project->updatedAt()
@@ -125,6 +127,7 @@ final readonly class PdoProjectRepository implements ProjectRepositoryInterface
             $filters,
             $page,
             $limit,
+            'sort_order ASC',
         );
 
         /** @var array<int, array<string, string|null>> $rows */
@@ -156,6 +159,7 @@ final readonly class PdoProjectRepository implements ProjectRepositoryInterface
             $row['repo_url'],
             $technologies,
             Status::from((string) $row['status']),
+            (int) ($row['sort_order'] ?? 0),
             new DateTimeImmutable((string) $row['created_at']),
             new DateTimeImmutable((string) $row['updated_at']),
         );

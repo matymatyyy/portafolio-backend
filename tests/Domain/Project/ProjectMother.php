@@ -20,6 +20,7 @@ final class ProjectMother
         ?string $repoUrl = null,
         array $technologies = ['PHP'],
         Status $status = Status::Active,
+        int $sortOrder = 0,
     ): Project {
         return Project::create(
             ProjectId::fromString($id),
@@ -31,6 +32,7 @@ final class ProjectMother
             $repoUrl,
             $technologies,
             $status,
+            $sortOrder,
         );
     }
 }

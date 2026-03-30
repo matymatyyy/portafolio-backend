@@ -64,3 +64,7 @@ CREATE INDEX IF NOT EXISTS idx_page_visits_page ON page_visits (page);
 CREATE INDEX IF NOT EXISTS idx_page_visits_ip_address ON page_visits (ip_address);
 CREATE INDEX IF NOT EXISTS idx_page_visits_referrer ON page_visits (referrer);
 CREATE INDEX IF NOT EXISTS idx_page_visits_visited_at_page ON page_visits (visited_at, page);
+
+-- changeset portfolio:5
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS sort_order INTEGER NOT NULL DEFAULT 0;
+CREATE INDEX IF NOT EXISTS idx_projects_sort_order ON projects (sort_order);

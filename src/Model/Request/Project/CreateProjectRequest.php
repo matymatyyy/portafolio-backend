@@ -27,6 +27,8 @@ final class CreateProjectRequest
         public readonly array $technologies = [],
         #[Assert\Choice(choices: ['active', 'archived'], message: 'Status must be either "active" or "archived".')]
         public readonly string $status = 'active',
+        #[Assert\GreaterThanOrEqual(value: 0, message: 'Sort order must be a non-negative integer.')]
+        public readonly int $sortOrder = 0,
     ) {
     }
 }

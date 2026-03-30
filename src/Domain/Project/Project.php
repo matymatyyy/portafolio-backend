@@ -29,6 +29,8 @@ class Project
 
     private Status $status;
 
+    private int $sortOrder;
+
     private DateTimeImmutable $createdAt;
 
     private DateTimeImmutable $updatedAt;
@@ -46,6 +48,7 @@ class Project
         ?string $repoUrl,
         array $technologies,
         Status $status,
+        int $sortOrder,
         DateTimeImmutable $createdAt,
     ) {
         $this->id = $id;
@@ -57,6 +60,7 @@ class Project
         $this->repoUrl = $repoUrl;
         $this->technologies = $technologies;
         $this->status = $status;
+        $this->sortOrder = $sortOrder;
         $this->createdAt = $createdAt;
         $this->updatedAt = $createdAt;
     }
@@ -74,6 +78,7 @@ class Project
         ?string $repoUrl,
         array $technologies,
         Status $status,
+        int $sortOrder = 0,
     ): self {
         return new self(
             $id,
@@ -85,6 +90,7 @@ class Project
             $repoUrl,
             $technologies,
             $status,
+            $sortOrder,
             new DateTimeImmutable()
         );
     }
@@ -102,6 +108,7 @@ class Project
         ?string $repoUrl,
         array $technologies,
         Status $status,
+        int $sortOrder,
         DateTimeImmutable $createdAt,
         DateTimeImmutable $updatedAt,
     ): self {
@@ -115,6 +122,7 @@ class Project
             $repoUrl,
             $technologies,
             $status,
+            $sortOrder,
             $createdAt
         );
         $project->updatedAt = $updatedAt;
@@ -134,6 +142,7 @@ class Project
         ?string $repoUrl,
         array $technologies,
         Status $status,
+        int $sortOrder,
     ): void {
         $this->title = $title;
         $this->slug = $slug;
@@ -143,6 +152,7 @@ class Project
         $this->repoUrl = $repoUrl;
         $this->technologies = $technologies;
         $this->status = $status;
+        $this->sortOrder = $sortOrder;
         $this->updatedAt = new DateTimeImmutable();
     }
 
@@ -192,6 +202,11 @@ class Project
     public function status(): Status
     {
         return $this->status;
+    }
+
+    public function sortOrder(): int
+    {
+        return $this->sortOrder;
     }
 
     public function createdAt(): DateTimeImmutable
